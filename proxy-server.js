@@ -21,7 +21,7 @@ app.get("/geocode", async (req, res) => {
     }
 
     try {
-        const response = await axios.get("https://maps.apigw.ntruss.com/map-geocode/v2", {
+        const response = await axios.get("https://maps.apigw.ntruss.com/map-geocode/v2/geocode", {
             headers: {
                 "X-NCP-APIGW-API-KEY-ID": NCP_CLIENT_ID,
                 "X-NCP-APIGW-API-KEY": NCP_CLIENT_SECRET
