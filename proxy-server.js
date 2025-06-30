@@ -1,8 +1,10 @@
-require("dotenv").config(); // .env 파일 또는 Render 환경변수 불러오기
+require("dotenv").config();
 
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,24 +14,49 @@ app.use(cors());
 const NCP_CLIENT_ID = process.env.NCP_CLIENT_ID;
 const NCP_CLIENT_SECRET = process.env.NCP_CLIENT_SECRET;
 
-// /geocode?query=주소 형태의 요청 처리
+// 캐시 파일 경로
+const CACHE_FILE = path.join(__dirname, "geocode-cache.json");
+
+// 캐시 로드 (없으면 빈 객체)
+let geocodeCache = {};
+if (fs.existsSync(CACHE_FILE)) {
+    try {
+        geocodeCache = JSON.parse(fs.readFileSync(CACHE_FILE, "utf-8"));
+    } catch (e) {
+        geocodeCache = {};
+    }
+}
+
+// 캐시 저장 함수
+function saveCache() {
+    fs.writeFileSync(CACHE_FILE, JSON.stringify(geocodeCache, null, 2), "utf-8");
+}
+
+// /geocode?query=주소
 app.get("/geocode", async (req, res) => {
     const query = req.query.query;
-
     if (!query) {
         return res.status(400).json({ error: "Missing 'query' parameter" });
     }
 
+    // 1. 캐시 확인
+    if (geocodeCache[query]) {
+        return res.json(geocodeCache[query]);
+    }
+
+    // 2. 네이버 API 요청
     try {
         const response = await axios.get("https://maps.apigw.ntruss.com/map-geocode/v2/geocode", {
             headers: {
                 "X-NCP-APIGW-API-KEY-ID": NCP_CLIENT_ID,
                 "X-NCP-APIGW-API-KEY": NCP_CLIENT_SECRET
             },
-            params: {
-                query: query
-            }
+            params: { query }
         });
+
+        // 3. 결과 캐싱 및 저장
+        geocodeCache[query] = response.data;
+        saveCache();
 
         res.json(response.data);
     } catch (error) {
@@ -39,5 +66,5 @@ app.get("/geocode", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`✅ Proxy server is running on http://localhost:${PORT}`);
+    console.log(`Proxy server is running on http://localhost:${PORT}`);
 });
