@@ -9,7 +9,13 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// app.use(cors());  // 기존 코드 주석 처리
+
+app.use(cors({
+    origin: [
+        "https://metalheater.com",
+    ]
+}));
 
 const NCP_CLIENT_ID = process.env.NCP_CLIENT_ID;
 const NCP_CLIENT_SECRET = process.env.NCP_CLIENT_SECRET;
