@@ -1,9 +1,9 @@
 name: Trigger Cloudtype Deploy via API
 
 on:
-  workflow_dispatch:  # 수동 실행 허용
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # 매일 0시(UTC)에 자동 실행 (한국시간 오전 9시)
+    - cron: '0 0 * * *'
 
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Trigger Cloudtype Deployment
         env:
-          API_KEY: ${{ secrets.CLOUDTYPE_API_TOKEN }}
+          API_KEY: ${{ secrets.CLOUDTYPE_TOKEN }}
         run: |
           echo "Starting Cloudtype deployment..."
           curl -X POST "https://api.cloudtype.io/api/v1/projects/page1762/naver-geocode-proxy/deploy" \
