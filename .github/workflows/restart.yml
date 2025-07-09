@@ -1,16 +1,22 @@
-name: Redeploy Cloudtype Project
+name: Trigger Cloudtype Deploy via Git Push
 
 on:
-  workflow_dispatch:  # 수동 실행 가능
+  workflow_dispatch:  # 수동 실행
   schedule:
-    - cron: '0 0 * * *'  # 매일 자정(UTC)에 자동 실행 (한국시간 9시)
+    - cron: '0 0 * * *'  # 매일 자정 (UTC) → 한국 오전 9시
 
 jobs:
   redeploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Trigger Cloudtype Redeploy
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Dummy commit to trigger Cloudtype
         run: |
-          curl -X POST https://api.cloudtype.io/api/v1/projects/page1762/naver-geocode-proxy/deploy \
-            -H "Authorization: Bearer ${{ secrets.CLOUDTYPE_TOKEN }}"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          echo "// redeploy: $(date)" >> .deploy-log.txt
+          git add .deploy-log.txt
+          git commit -m "Trigger redeploy at $(date)" || echo "Nothing to commit"
+          git push
