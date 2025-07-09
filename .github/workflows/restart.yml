@@ -1,21 +1,27 @@
-name: Trigger Cloudtype Deploy via Git Push
+name: Trigger Cloudtype Redeploy via Push
 
 on:
-  workflow_dispatch:  # 수동 실행
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # 매일 자정 (UTC) → 한국 오전 9시
+    - cron: '0 0 * * *'
 
 jobs:
   redeploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
 
-      - name: Dummy commit to trigger Cloudtype
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+
+      - name: Add dummy commit and push
+        run: |
           echo "// redeploy: $(date)" >> .deploy-log.txt
           git add .deploy-log.txt
           git commit -m "Trigger redeploy at $(date)" || echo "Nothing to commit"
