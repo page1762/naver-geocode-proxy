@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: Restart Cloudtype App
         run: |
-          curl -X POST https://api.cloudtype.io/api/v1/page1762/naver-geocode-proxy/deploy \
+          curl -X POST https://app.cloudtype.io/api/v1/page1762/naver-geocode-proxy/deploy \
             -H "Authorization: Bearer ${{ secrets.CLOUDTYPE_API_TOKEN }}"
