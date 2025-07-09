@@ -1,33 +1,18 @@
-name: Trigger Cloudtype Deploy via Dummy File Change
+name: Trigger Cloudtype Deploy via API
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # 매일 0시 UTC
+    - cron: '0 0 * * *'  # 매일 0시 UTC 실행
 
 jobs:
   redeploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure git
+      - name: Trigger deploy via Cloudtype API
+        env:
+          CLOUDTYPE_API_TOKEN: ${{ secrets.CLOUDTYPE_API_TOKEN }}
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-      - name: Update dummy deploy trigger file and push
-        run: |
-          BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          echo "Redeploy triggered at $(date)" > .dummy-deploy-trigger
-          git add .dummy-deploy-trigger
-
-          # 커밋할 변경사항이 있으면 커밋하고 푸시
-          git diff-index --quiet HEAD || (
-            git commit -m "Trigger redeploy at $(date)"
-            git push origin "$BRANCH"
-          )
+          curl -X POST "https://api.cloudtype.io/api/v1/projects/page1762/naver-geocode-proxy/deploy" \
+            -H "Authorization: Bearer $CLOUDTYPE_API_TOKEN"
