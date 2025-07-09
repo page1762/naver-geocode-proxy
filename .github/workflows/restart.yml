@@ -14,5 +14,7 @@ jobs:
         env:
           CLOUDTYPE_API_TOKEN: ${{ secrets.CLOUDTYPE_API_TOKEN }}
         run: |
-          curl -X POST "https://api.cloudtype.io/api/v1/projects/page1762/naver-geocode-proxy/deploy" \
-            -H "Authorization: Bearer $CLOUDTYPE_API_TOKEN"
+          curl -d '{"project":"page1762", "app": "naver-geocode-proxy", "stage":"master"}' \
+               -H "Content-Type: application/json" \
+               -H "Authorization: Bearer <apikey>" \
+               -X POST https://api.cloudtype.io/webhooks/deploy
