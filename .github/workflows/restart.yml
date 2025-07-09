@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Trigger Cloudtype via webhook
         env:
-          WEBHOOK_SECRET: ${{ secrets.CLOUDTYPE_TOKEN }}
+          WEBHOOK_SECRET: ${{ secrets.CLOUDTYPE_WEBHOOK_SECRET }}
         run: |
           curl -X POST https://api.cloudtype.io/webhooks/deploy \
             -H "Content-Type: application/json" \
