@@ -1,0 +1,4 @@
+echo "redeploy triggered at $(date)" > .dummy-deploy-trigger
+git add .dummy-deploy-trigger
+git commit -m "Trigger redeploy at $(date)"
+git push origin $BRANCH
