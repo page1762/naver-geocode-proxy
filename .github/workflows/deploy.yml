@@ -40,8 +40,3 @@ jobs:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
               preset: node
-      - name: Connect to Cloudtype
-        uses: cloudtype-github-actions/connect@v1
-        with:
-          repo: page1762/naver-geocode-proxy
-          ghtoken: ${{ secrets.GITHUB_TOKEN }}
