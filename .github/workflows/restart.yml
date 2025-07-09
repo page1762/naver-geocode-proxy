@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: master  # 혹은 저장소 기본 브랜치명 (main인지 master인지 확인 후 수정)
+          ref: master  # 저장소 기본 브랜치가 main일 경우 변경
 
       - name: Configure git
         run: |
@@ -31,5 +31,4 @@ jobs:
           echo "# redeploy triggered at $(date)" >> $FILE
 
           git add $FILE
-          git commit -m "Trigger redeploy: update README.md $(date)" || echo "No changes to commit"
-          git push origin HEAD  # HEAD 기준으로 푸시
+          git diff-index --quiet HEAD || (git commit -m "Trigger redeploy: update README.md $(date)" && git push origin main)
