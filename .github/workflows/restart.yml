@@ -20,5 +20,5 @@ jobs:
             -d '{
               "project": "page1762",
               "app": "naver-geocode-proxy",
-              "stage": "main"
+              "stage": "master"
             }'
