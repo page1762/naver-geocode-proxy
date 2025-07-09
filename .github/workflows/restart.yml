@@ -1,15 +1,16 @@
-name: Restart Cloudtype App
+name: Redeploy Cloudtype Project
 
 on:
+  workflow_dispatch:  # 수동 실행 가능
   schedule:
-    - cron: '0 4 * * *'  # 매일 한국시간 오후 1시 실행
-  workflow_dispatch:  # 수동 실행 허용
+    - cron: '0 0 * * *'  # 매일 자정(UTC)에 자동 실행 (한국시간 9시)
 
 jobs:
-  restart:
+  redeploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Restart Cloudtype App
+      - name: Trigger Cloudtype Redeploy
         run: |
-          curl -X POST https://app.cloudtype.io/api/v1/projects/page1762/naver-geocode-proxy/deploy \
-            -H "Authorization: Bearer ${{ secrets.CLOUDTYPE_API_TOKEN }}"
+          curl -X POST https://api.cloudtype.io/api/v1/projects/page1762/naver-geocode-proxy/deploy \
+            -H "Authorization: Bearer ${{ secrets.CLOUDTYPE_TOKEN }}"
