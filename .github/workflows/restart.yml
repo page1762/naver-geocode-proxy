@@ -1,4 +1,4 @@
-name: Trigger Cloudtype Deploy via API
+name: Trigger Cloudtype Deploy via Webhook
 
 on:
   workflow_dispatch:
@@ -10,10 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Cloudtype Deployment
+      - name: Trigger Cloudtype via webhook
         env:
-          API_KEY: ${{ secrets.CLOUDTYPE_TOKEN }}
+          WEBHOOK_SECRET: ${{ secrets.CLOUDTYPE_TOKEN }}
         run: |
-          echo "Starting Cloudtype deployment..."
-          curl -X POST "https://api.cloudtype.io/api/v1/projects/page1762/naver-geocode-proxy/deploy" \
-            -H "Authorization: Bearer $API_KEY"
+          curl -X POST https://api.cloudtype.io/webhooks/deploy \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $WEBHOOK_SECRET" \
+            -d '{
+              "project": "page1762",
+              "app": "naver-geocode-proxy",
+              "stage": "master"
+            }'
