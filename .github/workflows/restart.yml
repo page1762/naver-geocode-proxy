@@ -1,12 +1,12 @@
-name: Trigger Cloudtype Deploy via Tag Push
+name: Trigger Cloudtype Deploy via Minimal Code Change
 
 on:
-  workflow_dispatch:    # 수동 실행 가능
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # 매일 0시 UTC(한국시간 9시)에 자동 실행
+    - cron: '0 0 * * *'  # 매일 자정 (UTC)
 
 jobs:
-  trigger-deploy:
+  redeploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,9 +20,16 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-      - name: Create and push deploy tag
+      - name: Make minimal change to README.md and push
         run: |
-          TAG="deploy-$(date +'%Y%m%d%H%M%S')"
-          echo "Creating tag $TAG and pushing to origin"
-          git tag $TAG
-          git push origin $TAG
+          FILE="README.md"
+          if [ ! -f $FILE ]; then
+            echo "# Temp README for redeploy" > $FILE
+          fi
+
+          # 기존 마지막 줄에 타임스탬프 주석 추가 (변경 감지용)
+          echo "# redeploy triggered at $(date)" >> $FILE
+
+          git add $FILE
+          git commit -m "Trigger redeploy: update README.md $(date)" || echo "No changes to commit"
+          git push origin main
