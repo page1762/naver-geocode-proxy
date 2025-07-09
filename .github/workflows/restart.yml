@@ -1,0 +1,15 @@
+name: Restart Cloudtype App
+
+on:
+  schedule:
+    - cron: '0 4 * * *'  # 매일 한국시간 오후 1시 실행
+  workflow_dispatch:  # 수동 실행 허용
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restart Cloudtype App
+        run: |
+          curl -X POST https://api.cloudtype.io/api/v1/projects/page1762/naver-geocode-proxy/deploy \
+            -H "Authorization: Bearer ${{ secrets.CLOUDTYPE_API_TOKEN }}"
