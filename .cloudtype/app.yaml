@@ -1,17 +1,17 @@
-name: default-deploy        # ✅ 최상단에 추가 (필수)
-app: naver-geocode-proxy
+name: naver-geocode-proxy-main  # 배포별 식별 가능한 이름
+app: naver-geocode-proxy        # Cloudtype 앱 이름 (Dashboard / URL 기준)
 
 services:
-  - name: web               # 서비스명 (이건 필수)
-    type: web
+  - name: web                   # 서비스 식별자
+    type: web                   # 웹 서비스 타입
     build:
-      base: node@18
-      install: npm install
+      base: node@18            # Node.js 18 런타임
+      install: npm install     # 의존성 설치
     run:
-      command: npm start
+      command: npm start       # 실행 커맨드 (package.json 내 설정 필요)
     env:
       - name: NODE_ENV
-        value: production
+        value: production      # 환경변수 설정
     ports:
-      - 3000
-    root: .
+      - 3000                   # Express 기본 포트 (앱 내부 포트)
+    root: .                    # 코드 루트 디렉토리
