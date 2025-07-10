@@ -1,7 +1,7 @@
 app: naver-geocode-proxy
 
 services:
-  - name: web
+  - name: web           # ✅ 필수: 배포 서비스 이름
     type: web
     build:
       base: node@18
