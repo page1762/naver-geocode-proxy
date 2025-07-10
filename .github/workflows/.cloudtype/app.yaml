@@ -1,0 +1,7 @@
+      - name: Deploy to Cloudtype
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: page1762/naver-geocode-proxy
+          stage: main
+          file: .cloudtype/app.yaml
