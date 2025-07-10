@@ -25,7 +25,8 @@ jobs:
       - name: Deploy to Cloudtype
         uses: cloudtype-github-actions/deploy@v1
         with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project: page1762/mce5fggz23d45617  # ✅ 프로젝트 ID로 수정
-          stage: main
-          file: .cloudtype/app.yaml
+         token: ${{ secrets.CLOUDTYPE_TOKEN }}
+         project: page1762/naver-geocode-proxy   # ✅ 다시 원래대로
+         stage: main
+         file: .cloudtype/app.yaml
+
