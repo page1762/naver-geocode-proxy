@@ -1,24 +1,31 @@
-name: Trigger Cloudtype Deploy via Webhook
+name: CD via Cloudtype GitHub Actions
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
   schedule:
-    - cron: '0 22 * * *'
+    - cron: '0 22 * * *'  # 한국시간 7:00 실행
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Cloudtype via webhook
-        env:
-          WEBHOOK_SECRET: ${{ secrets.CLOUDTYPE_WEBHOOK_SECRET }}
-        run: |
-          curl -X POST https://api.cloudtype.io/webhooks/deploy \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $WEBHOOK_SECRET" \
-            -d '{
-              "project": "page1762",
-              "app": "naver-geocode-proxy",
-              "stage": "main"
-            }'
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Connect repository to Cloudtype
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+          # endpoint: ${{ secrets.CLOUDTYPE_ENDPOINT }}  # 커스텀 엔드포인트가 필요할 경우 사용
+
+      - name: Deploy to Cloudtype
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: page1762/naver-geocode-proxy
+          stage: main
+          # file: .cloudtype/app.yaml  # 배포 설정 파일을 커스터마이징하려면 사용
