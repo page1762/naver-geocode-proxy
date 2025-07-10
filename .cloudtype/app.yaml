@@ -1,4 +1,4 @@
-name: naver-geocode-proxy  # 배포별 식별 가능한 이름
+name: page1762  # 배포별 식별 가능한 이름
 app: naver-geocode-proxy        # Cloudtype 앱 이름 (Dashboard / URL 기준)
 
 services:
