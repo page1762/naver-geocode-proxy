@@ -5,7 +5,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 22 * * *'  # 한국시간 7:00 실행
+    - cron: '0 22 * * *'  # 한국시간 오전 7시 실행
+  workflow_dispatch:      # ✅ 수동 실행 허용 (Actions 탭에서 직접 실행 가능)
 
 jobs:
   deploy:
@@ -20,7 +21,6 @@ jobs:
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
-          # endpoint: ${{ secrets.CLOUDTYPE_ENDPOINT }}  # 커스텀 엔드포인트가 필요할 경우 사용
 
       - name: Deploy to Cloudtype
         uses: cloudtype-github-actions/deploy@v1
@@ -28,4 +28,3 @@ jobs:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: page1762/naver-geocode-proxy
           stage: main
-          # file: .cloudtype/app.yaml  # 배포 설정 파일을 커스터마이징하려면 사용
