@@ -1,0 +1,16 @@
+app: naver-geocode-proxy
+
+services:
+  - name: web
+    type: web
+    build:
+      base: node@18
+      install: npm install
+    run:
+      command: npm start
+    env:
+      - name: NODE_ENV
+        value: production
+    ports:
+      - 3000
+    root: .
