@@ -3,7 +3,7 @@ name: CD via Cloudtype GitHub Actions
 on:
   push:
     branches:
-      - master
+      - main
   schedule:
     - cron: '0 22 * * *'  # 한국시간 오전 7시 실행
   workflow_dispatch:      # ✅ 수동 실행 허용 (Actions 탭에서 직접 실행 가능)
@@ -27,6 +27,6 @@ jobs:
         with:
             token: ${{ secrets.CLOUDTYPE_TOKEN }}
             project: page1762/naver-geocode-proxy
-            stage: master
+            stage: main
             file: .cloudtype/app.yaml
 
