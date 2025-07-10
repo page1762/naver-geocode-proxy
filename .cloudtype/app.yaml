@@ -1,7 +1,8 @@
+name: default-deploy        # ✅ 최상단에 추가 (필수)
 app: naver-geocode-proxy
 
 services:
-  - name: web           # ✅ 필수: 배포 서비스 이름
+  - name: web               # 서비스명 (이건 필수)
     type: web
     build:
       base: node@18
