@@ -1,8 +1,8 @@
-name: @page1762  # 배포별 식별 가능한 이름
+name: page1762  # 배포별 식별 가능한 이름
 app: naver-geocode-proxy        # Cloudtype 앱 이름 (Dashboard / URL 기준)
 
 services:
-  - name: web                   # 서비스 식별자
+  - name: page1762                   # 서비스 식별자
     type: web                   # 웹 서비스 타입
     build:
       base: node@18            # Node.js 18 런타임
