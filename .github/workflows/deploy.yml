@@ -33,3 +33,22 @@ jobs:
               git:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
+
+            services:
+                - name: web
+                  type: web
+            build:
+            base: node@18
+            install: npm install
+            run:
+            command: npm start
+            env:
+            - name: NODE_ENV
+              value: production
+            - name: NCP_CLIENT_ID
+              value: tpog4appfl
+            - name: NCP_CLIENT_SECRET
+              value: H4cqm0QCyyshRvXjRHhorahyl5hYDe1S32XSQLRm
+            ports:
+            - 3000
+          root: .
