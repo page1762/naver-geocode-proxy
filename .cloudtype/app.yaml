@@ -1,17 +1,21 @@
 name: naver-geocode-proxy
-app: node@16
+app: naver-geocode-proxy
+
+git:
+  url: https://github.com/page1762/naver-geocode-proxy.git
+  branch: main
 
 services:
-  - name: page1762                   # 서비스 식별자
-    type: web                   # 웹 서비스 타입
+  - name: web                      # 서비스 이름 (원래 'page1762'였지만 혼동 피해서 'web' 사용)
+    type: web
     build:
-      base: node@18            # Node.js 18 런타임
-      install: npm install     # 의존성 설치
+      base: node@18               # Node.js 18 사용
+      install: npm install
     run:
-      command: npm start       # 실행 커맨드 (package.json 내 설정 필요)
+      command: npm start
     env:
       - name: NODE_ENV
-        value: production      # 환경변수 설정
+        value: production
     ports:
-      - 3000                   # Express 기본 포트 (앱 내부 포트)
-    root: .                    # 코드 루트 디렉토리
+      - 3000
+    root: .
