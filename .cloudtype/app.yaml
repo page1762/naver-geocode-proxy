@@ -1,6 +1,10 @@
 name: naver-geocode-proxy
 app: node@16
 
+git:
+  url: https://github.com/page1762/naver-geocode-proxy.git
+  branch: main
+
 services:
   - name: page1762
     type: web
