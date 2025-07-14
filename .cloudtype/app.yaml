@@ -6,7 +6,7 @@ git:
   branch: main
 
 services:
-  - name: web                      # 서비스 이름 (원래 'page1762'였지만 혼동 피해서 'web' 사용)
+  - name: page1762                      # 서비스 이름 (원래 'page1762'였지만 혼동 피해서 'web' 사용)
     type: web
     build:
       base: node@18               # Node.js 18 사용
