@@ -1,8 +1,8 @@
 name: naver-geocode-proxy
-app: naver-geocode-proxy
+app: node@16
 
 services:
-  - name: web
+  - name: page1762
     type: web
     build:
       base: node@18
