@@ -22,4 +22,4 @@ jobs:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: page1762/naver-geocode-proxy
           stage: main
-          file: .cloudtype/app.yaml   # ✅ YAML 블록 대신 파일 참조 방식
+          file: .cloudtype/app.yaml
