@@ -1,25 +1,14 @@
 name: naver-geocode-proxy
 app: node@16
-
-git:
-  url: https://github.com/page1762/naver-geocode-proxy.git
-  branch: main
-
-services:
-  - name: page1762
-    type: web
-    build:
-      base: node@18
-      install: npm install
-    run:
-      command: npm start
-    env:
-      - name: NODE_ENV
-        value: production
-      - name: NCP_CLIENT_ID
+options:
+  install: npm install
+  start: npm start
+  env:
+    - name: NCP_CLIENT_ID
         value: ${{ secrets.NCP_CLIENT_ID }}
       - name: NCP_CLIENT_SECRET
         value: ${{ secrets.NCP_CLIENT_SECRET }}
-    ports:
-      - 3000
-    root: .
+  buildenv: []
+context:
+  git:
+    url: https://github.com/page1762/naver-geocode-proxy.git
