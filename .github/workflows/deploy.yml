@@ -1,22 +1,21 @@
 name: Deploy to cloudtype
+
 on:
   push:
     branches:
       - main
   schedule:
-    - cron: '0 22 * * *'
+    - cron: '0 22 * * *'  # 매일 오전 7시(KST) 실행
   workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Connect deploy key
-        uses: cloudtype-github-actions/connect@v1
-        with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          ghtoken: ${{ secrets.GHP_TOKEN }}
+
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
         with:
@@ -25,30 +24,32 @@ jobs:
           stage: main
           yaml: |
             name: naver-geocode-proxy
-            app: node@16
+            app: naver-geocode-proxy
+
             options:
               env: []
               buildenv: []
+
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
 
             services:
-                - name: web
-                  type: web
-            build:
-            base: node@18
-            install: npm install
-            run:
-            command: npm start
-            env:
-            - name: NODE_ENV
-              value: production
-            - name: NCP_CLIENT_ID
-              value: tpog4appfl
-            - name: NCP_CLIENT_SECRET
-              value: H4cqm0QCyyshRvXjRHhorahyl5hYDe1S32XSQLRm
-            ports:
-            - 3000
-          root: .
+              - name: web
+                type: web
+                build:
+                  base: node@18
+                  install: npm install
+                run:
+                  command: npm start
+                env:
+                  - name: NODE_ENV
+                    value: production
+                  - name: NCP_CLIENT_ID
+                    value: tpog4appfl
+                  - name: NCP_CLIENT_SECRET
+                    value: H4cqm0QCyyshRvXjRHhorahyl5hYDe1S32XSQLRm
+                ports:
+                  - 3000
+                root: .
