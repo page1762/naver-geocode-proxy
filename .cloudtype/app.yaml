@@ -1,17 +1,21 @@
 name: naver-geocode-proxy
-app: node@16
+app: naver-geocode-proxy
 
 services:
-  - name: page1762
+  - name: web
     type: web
     build:
-      base: node@16
+      base: node@18
       install: npm install
     run:
       command: npm start
     env:
       - name: NODE_ENV
         value: production
+      - name: NCP_CLIENT_ID
+        value: ${{ secrets.NCP_CLIENT_ID }}
+      - name: NCP_CLIENT_SECRET
+        value: ${{ secrets.NCP_CLIENT_SECRET }}
     ports:
       - 3000
     root: .
