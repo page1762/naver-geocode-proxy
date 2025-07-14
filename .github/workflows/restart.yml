@@ -5,8 +5,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 22 * * *'  # 매일 오전 7시(KST) 자동 실행
-  workflow_dispatch:       # 수동 실행 허용
+    - cron: '0 22 * * *'
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -16,16 +16,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Connect repository to Cloudtype
-        uses: cloudtype-github-actions/connect@v1
-        with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}     # Cloudtype API 토큰
-          ghtoken: ${{ secrets.GHP_TOKEN }}         # GitHub Personal Access Token
-
       - name: Deploy to Cloudtype
         uses: cloudtype-github-actions/deploy@v1
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project: page1762/naver-geocode-proxy     # Cloudtype의 조직/프로젝트 이름
+          project: page1762/naver-geocode-proxy
           stage: main
-          file: .cloudtype/app.yaml                 # 앱 설정 파일
+          file: .cloudtype/app.yaml
