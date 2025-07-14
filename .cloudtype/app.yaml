@@ -5,7 +5,7 @@ services:
   - name: page1762
     type: web
     build:
-      base: node@18
+      base: node@16
       install: npm install
     run:
       command: npm start
