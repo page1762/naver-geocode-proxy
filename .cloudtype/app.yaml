@@ -5,9 +5,9 @@ options:
     - name: NODE_ENV
       value: production
     - name: NCP_CLIENT_ID
-      value: tpog4appfl
+      value: ${{ secrets.NCP_CLIENT_ID }}
     - name: NCP_CLIENT_SECRET
-      value: H4cqm0QCyyshRvXjRHhorahyl5hYDe1S32XSQLRm
+      value: ${{ secrets.NCP_CLIENT_SECRET }}
   ports: 3000
   install: npm install
   start: npm start
