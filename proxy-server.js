@@ -11,11 +11,15 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
+// Cloudtype은 로드밸런서/프록시가 앞단에 있기 때문에 필요
+app.enable("trust proxy");
+
 // www → non-www 리다이렉트 처리
 app.use((req, res, next) => {
   if (req.headers.host && req.headers.host.startsWith("www.")) {
     const newHost = req.headers.host.replace(/^www\./, "");
-    return res.redirect(301, `${req.protocol}://${newHost}${req.originalUrl}`);
+    const protocol = req.protocol; // trust proxy 켜서 https도 정상 인식됨
+    return res.redirect(301, `${protocol}://${newHost}${req.originalUrl}`);
   }
   next();
 });
